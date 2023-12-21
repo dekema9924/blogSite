@@ -1,0 +1,13 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.blog-container{
+    margin: 20px;
+}
+.container-sm{
+    border: 2px solid gray;
+}
+
