@@ -17,7 +17,7 @@
     <% articles.forEach(article => {%>
         <div class="container-sm mt-3 ">
            <p class="h1"><%=article.title%></p>
-           <p class="text-info"><%= article.date.toLocaleDateString() %></p>
+           <p class="text-info"><%= article.date %></p>
            <p class="text-secondary"><%= article.description%></p>
            <div class="container mb-3">
                 <a href="/routes/readmore" class="btn btn-primary">ReadMore</a>
