@@ -13,3 +13,7 @@ INSERT INTO Articles (
 	'The ultimate soldier who conquered nations'
 	
 );
+
+SELECT title, description, submission_date, id FROM Articles ORDER BY ID DESC
+
+SELECT title, id, description, submission_date FROM Articles WHERE id = '${blog_id}

@@ -11,14 +11,25 @@
 <body>
  
     <% blogs.forEach(blog=>{%>    
-            <h1><%= blog.title %></h1>
-            <p><%= blog.date.toDateString() %></p>    
+           <div class="container mt-3">
+                <h1><%= blog.title %></h1>
+                <p><%= blog.date.toDateString() %></p> 
+
+
+                <a href="/routes"  class="btn btn-primary" >All articles</a>
+                <a href="/routes/edit" class="btn btn-secondary">Edit</a>
+           </div>   
    <% }) %>
 
-    <a href="/routes"  class="btn btn-primary" >All articles</a>
-    <a href="/routes/edit" class="btn btn-secondary">Edit</a>
+ 
 
     <hr>
 
-    <p>markdown</p>
+    <% blogs.forEach(blog=>{%>  
+        <div class="container">
+            <p><%= blog.markdown %></p>
+        </div>    
+      
+    <% }) %>
+   
 </body>
