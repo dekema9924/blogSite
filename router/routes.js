@@ -9,11 +9,12 @@ let article;
 
 //home route
 router.get('/', (req, res)=>{
-    let sql = "SELECT title, description, submission_date FROM Articles ORDER  BY submission_date "
+    let sql = "SELECT title, id, description, submission_date FROM Articles ORDER BY ID DESC "
     article_db.query(sql,(err, data)=>{
         if(err){
             console.error("error executing query", err.stack)
         }else{
+            //getting blogs from database
             blog = data.rows
             console.log(data.rows)
             res.render('home', {articles: blog})
@@ -30,34 +31,44 @@ router.get('/', (req, res)=>{
 router.get('/new', (req, res)=>{
     res.render('new')
 })
-
 //save new post
-
 router.post('/newarticle', async (req, res)=>{
-    // let title = req.body.title;
-    // let description = req.body.description;
-    // let markdown = req.body.description;
     let{title, description, markdown} =req.body
-
     let sql = `INSERT INTO Articles (title, description) VALUES ('${title}', '${description}')`;
- 
-
    article_db.query(sql, (err, result)=>{
         if(err){
             console.error("error executing query", err.stack)
         }
             console.log('blog created ' + result.rowCount)
-            res.redirect('/routes')
-        
+            res.redirect('/routes')  
     })
-    
-
-
 })
 
 //edit route
 router.get('/edit', (req,res)=>{
     res.render('edit')
+})
+
+//readmore route
+router.get('/readmore/:id', (req, res)=>{
+    let{title, id, description, markdown} =req.body;
+    const blog_id = req.params.id;//get blog id and search db for it
+    // console.log(blog_id);
+    let sql = `SELECT title, id, description, submission_date FROM Articles WHERE id = '${blog_id}'`
+    article_db.query(sql, (err, result)=>{
+        if(err){
+            console.error("error executing query", err.stack)
+        }else{
+            let blog_post = result.rows
+            console.log(blog_post[0].title)
+            console.log(blog_post[0].submission_date)
+            const post = [{
+                title: blog_post[0].title,
+                date: blog_post[0].submission_date
+            }]
+            res.render('readmore', {blogs: post})
+        }
+    })
 })
 
 
@@ -67,15 +78,3 @@ router.get('/edit', (req,res)=>{
 module.exports = router;
 
 
-// let data = result.rows;
-//             async function getblog(){
-                // for await(const blog_data of data){
-                    //  article = [{
-                    //     title: blog_data.title,
-                    //     date: blog_data.submission_date,
-                    //     description: blog_data.description
-                    // }]
-                    // res.render('home', {articles: article}) 
-                // }
-//             }
-//             getblog();
