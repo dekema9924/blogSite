@@ -1,10 +1,6 @@
 const express = require('express');
 const router = express.Router();
 const article_db = require('../database/pg');
-let article;
-
-
-
 
 
 //home route
@@ -22,10 +18,7 @@ router.get('/', (req, res)=>{
         article_db.end
     
     })
-   
 })
-
-
 
 //new article route
 router.get('/new', (req, res)=>{
@@ -96,20 +89,18 @@ router.get('/readmore/:id', (req, res)=>{
 })
 
 //deletes route
-
-// router.delete('/:id', (req, res)=>{
-//     console.log('delete route')
-//     // let _id = req.params.id;
-//     // let q = `DELETE FROM Articles WHERE id = ${_id}`
-//     // article_db.query(q, (req, results)=>{
-//     //     res.redirect('home')
-//     // })
-// })
+router.delete('/:id', (req, res)=>{
+    console.log('delete route')
+    let _id = req.params.id;
+    let q = `DELETE FROM Articles WHERE id = ${_id}`
+    article_db.query(q, (req, results)=>{
+        res.redirect('/routes')
+    })
+})
 
 
 // update post route
 router.patch('/save/:id',(req,res)=>{
- 
     article_db.connect((err)=>{
         let _id = req.params.id
         let{title, description, markdown} =req.body
@@ -122,15 +113,9 @@ router.patch('/save/:id',(req,res)=>{
                 if (err) throw err;
                   res.redirect('/routes')
                   console.log('blog updated')
-            }
-            
-          
-    
-            
+            } 
         })
-
-    })
-   
+    }) 
 })
 
 

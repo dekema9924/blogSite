@@ -10,17 +10,21 @@
 </head>
 <body>
  <div class="container ml-5">
-    <h1>Blog Articles</h1>
-    <a href="/routes/new" class="btn btn-success">New article</a>
+    <div class="blog-title">
+        <h1>Daniel Blog 👋🏽</h1>
+        <a href="/routes/new">New article +</a>
+    </div>
 
 
     <% articles.forEach(article => {%>
         <div class="container-sm mt-3 ">
-           <p class="h1"><%=article.title%></p>
-           <p class="text-info"><%= article.submission_date.toDateString()%></p>
-           <p class="text-secondary"><%= article.description%></p>
-           <div class="container mb-3">
-                <a href="/routes/readmore/<%= article.id%>" class="btn btn-primary">ReadMore</a>
+           <div class="container">
+                <p class="h1"><%=article.title%></p>
+                <p class="text-info"><%= article.submission_date.toDateString()%></p>
+                <p class="text-secondary"><%= article.description%></p>
+           </div>
+           <div class="container mb-3" id="end">
+                <a href="/routes/readmore/<%= article.id%>" class="btn btn-primary">Read</a>
                 <a href="/routes/edit/<%= article.id%>" class="btn btn-info">Edit</a>
 
                 <form action="/routes/<%= article.id%>?_method=DELETE" method="post" class="d-inline">
@@ -34,6 +38,7 @@
     <% }); %>
 
  </div>
+
     
 </body>
 </html>
