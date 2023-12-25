@@ -31,7 +31,7 @@ router.get('/', (req, res)=>{
 router.get('/new', (req, res)=>{
     res.render('new')
 })
-//save new post
+//add new post
 router.post('/newarticle', async (req, res)=>{
     let{title, description, markdown} =req.body
     let sql = `INSERT INTO Articles (title, description, markdown) VALUES ('${title}', '${description}', '${markdown}')`;
@@ -45,8 +45,30 @@ router.post('/newarticle', async (req, res)=>{
 })
 
 //edit route
-router.get('/edit', (req,res)=>{
-    res.render('edit')
+router.get('/edit/:id', (req,res)=>{
+    let{title, id, description, markdown} =req.body;
+    const _id = req.params.id;//get blog id and search db for it
+     console.log(_id);
+    let sql = `SELECT title, id, description, submission_date, markdown FROM Articles WHERE id = '${_id}'`
+    article_db.query(sql, (err, result)=>{
+        if(err){
+            console.error("error executing query", err.stack)
+        }else{
+            let blog_post = result.rows
+            console.log(blog_post[0].title)
+            console.log(blog_post[0].submission_date)
+            const post = [{
+                title: blog_post[0].title,
+                date: blog_post[0].submission_date,
+                markdown: blog_post[0].markdown,
+                description: blog_post[0].description,
+                id: blog_post[0].id
+            }]
+          
+            res.render('edit', {edit_blog: post})
+        }
+    })
+    
 })
 
 //readmore route
@@ -65,14 +87,51 @@ router.get('/readmore/:id', (req, res)=>{
             const post = [{
                 title: blog_post[0].title,
                 date: blog_post[0].submission_date,
-                markdown: blog_post[0].markdown
+                markdown: blog_post[0].markdown,
+                id: blog_post[0].id
             }]
             res.render('readmore', {blogs: post})
         }
     })
 })
 
+//deletes route
 
+// router.delete('/:id', (req, res)=>{
+//     console.log('delete route')
+//     // let _id = req.params.id;
+//     // let q = `DELETE FROM Articles WHERE id = ${_id}`
+//     // article_db.query(q, (req, results)=>{
+//     //     res.redirect('home')
+//     // })
+// })
+
+
+// update post route
+router.patch('/save/:id',(req,res)=>{
+ 
+    article_db.connect((err)=>{
+        let _id = req.params.id
+        let{title, description, markdown} =req.body
+    
+        let q = `UPDATE Articles SET title = '${title}', description = '${description}', markdown ='${markdown}' WHERE id = '${_id}'`
+        article_db.query(q, (err, result)=>{
+            if(err){
+                console.error("error executing query", err.stack)
+            }else{
+                if (err) throw err;
+                  res.redirect('/routes')
+                  console.log('blog updated')
+            }
+            
+          
+    
+            
+        })
+
+    })
+   
+})
 
 
 
