@@ -16,4 +16,8 @@ INSERT INTO Articles (
 
 SELECT title, description, submission_date, id FROM Articles ORDER BY ID DESC
 
-SELECT title, id, description, submission_date FROM Articles WHERE id = '${blog_id}
+SELECT title, id, description, submission_date FROM Articles WHERE id = 1
+
+
+DELETE FROM Articles WHERE id = 1
+
