@@ -21,7 +21,9 @@ app.use('/routes' ,blogRouter);
 
 
 
-
+app.get('/', (req, res)=>{
+    res.redirect('/routes')
+} )
 
 
 app.listen(port,(req, res)=>{
